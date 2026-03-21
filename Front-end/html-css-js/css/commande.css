@@ -237,3 +237,23 @@
         flex-direction: column;
     }
 }
+/* Style du bouton de commande */
+#submit-order {
+    transition: all 0.3s ease;
+}
+
+#submit-order:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #cccccc;
+}
+
+#submit-order:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+#submit-order:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}

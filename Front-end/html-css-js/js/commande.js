@@ -1,34 +1,120 @@
 // ===== SCRIPT POUR LA PAGE COMMANDE =====
+// Version corrigée - Le bouton de commande fonctionne correctement
 
-// Initialisation
-document.addEventListener('DOMContentLoaded', function() {
-    loadCart();
-    selectPayment('cash');
+// ===== VALIDATION DES NUMÉROS DE TÉLÉPHONE CONGOLAIS =====
+function validatePhone(phone) {
+    if (!phone) return false;
     
-    // Ajouter les écouteurs d'événements
-    setupEventListeners();
-});
-
-function setupEventListeners() {
-    // Validation du formulaire en temps réel
-    const phoneInput = document.getElementById('phone');
-    if (phoneInput) {
-        phoneInput.addEventListener('blur', function() {
-            if (!validatePhone(this.value)) {
-                this.style.borderColor = 'red';
-            } else {
-                this.style.borderColor = 'green';
-            }
-        });
+    // Supprimer tous les espaces, tirets, parenthèses et points
+    let cleanPhone = phone.replace(/[\s\-\(\)\.]/g, '');
+    
+    // Retirer le + s'il est présent
+    if (cleanPhone.startsWith('+')) {
+        cleanPhone = cleanPhone.substring(1);
     }
+    
+    // Vérifier les différents formats possibles
+    if (cleanPhone.length === 12 && cleanPhone.startsWith('243')) {
+        return true;
+    }
+    if (cleanPhone.length === 10 && cleanPhone.startsWith('0')) {
+        return true;
+    }
+    if (cleanPhone.length === 9 && /^[1-9]/.test(cleanPhone)) {
+        return true;
+    }
+    
+    return false;
 }
 
-// Charger le panier
+function cleanPhoneNumber(phone) {
+    if (!phone) return '';
+    let clean = phone.replace(/[\s\-\(\)\.]/g, '');
+    if (clean.startsWith('+')) {
+        clean = clean.substring(1);
+    }
+    return clean;
+}
+
+// ===== FONCTIONS DU PANIER =====
+function getCart() {
+    return JSON.parse(localStorage.getItem('cart')) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function getCartTotal() {
+    const cart = getCart();
+    return cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
+}
+
+function getGroupedCart() {
+    const cart = getCart();
+    const grouped = {};
+    
+    cart.forEach(item => {
+        const key = item.name + '-' + item.price;
+        if (grouped[key]) {
+            grouped[key].quantity += item.quantity || 1;
+        } else {
+            grouped[key] = {
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity || 1
+            };
+        }
+    });
+    
+    return Object.values(grouped);
+}
+
+function formatPrice(price) {
+    return price.toLocaleString() + ' FC';
+}
+
+function showNotification(title, message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <strong>${title}</strong>
+            <p>${message}</p>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+    `;
+    
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+    notification.style.color = 'white';
+    notification.style.padding = '1rem';
+    notification.style.borderRadius = '8px';
+    notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '1000';
+    notification.style.minWidth = '300px';
+    notification.style.display = 'flex';
+    notification.style.justifyContent = 'space-between';
+    notification.style.alignItems = 'center';
+    notification.style.gap = '1rem';
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// ===== CHARGEMENT DU PANIER =====
 function loadCart() {
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     
-    const groupedCart = Cart.groupItems();
+    const groupedCart = getGroupedCart();
     
     if (groupedCart.length === 0) {
         cartItems.innerHTML = '<p style="text-align: center; color: #666;">Votre panier est vide</p>';
@@ -42,6 +128,7 @@ function loadCart() {
     groupedCart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
+        const safeName = item.name.replace(/'/g, "\\'");
         
         html += `
             <div class="cart-item">
@@ -50,9 +137,9 @@ function loadCart() {
                     <div class="cart-item-price">${formatPrice(item.price)}</div>
                 </div>
                 <div class="cart-item-actions">
-                    <button onclick="updateQuantity('${item.name}', ${item.price}, -1)">-</button>
+                    <button onclick="updateQuantity('${safeName}', ${item.price}, -1)">-</button>
                     <span>${item.quantity}</span>
-                    <button onclick="updateQuantity('${item.name}', ${item.price}, 1)">+</button>
+                    <button onclick="updateQuantity('${safeName}', ${item.price}, 1)">+</button>
                 </div>
             </div>
         `;
@@ -62,34 +149,85 @@ function loadCart() {
     cartTotal.textContent = formatPrice(total);
 }
 
-// Mettre à jour la quantité
 function updateQuantity(name, price, change) {
-    let cart = Cart.get();
+    let cart = getCart();
     
     if (change > 0) {
-        // Ajouter un article
-        cart.push({ name, price, quantity: 1 });
+        cart.push({ name: name, price: price, quantity: 1 });
     } else {
-        // Retirer un article
         const index = cart.findIndex(item => item.name === name && item.price === price);
         if (index !== -1) {
             cart.splice(index, 1);
         }
     }
     
-    Cart.save(cart);
+    saveCart(cart);
     loadCart();
 }
 
-// Vider le panier
 function clearCart() {
     if (confirm('Voulez-vous vraiment vider votre panier ?')) {
-        Cart.clear();
+        localStorage.removeItem('cart');
         loadCart();
     }
 }
 
-// Sélectionner le mode de paiement
+// ===== FONCTION POUR METTRE À JOUR L'ÉTAT DU BOUTON =====
+function updateOrderButtonState() {
+    const paymentMode = document.getElementById('payment-mode')?.value || 'cash';
+    const submitBtn = document.getElementById('submit-order');
+    
+    if (!submitBtn) return;
+    
+    if (paymentMode === 'cash') {
+        // Mode cash : toujours activé
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Confirmer la commande (Cash)';
+    } else {
+        // Mode en ligne : vérifier si un opérateur est sélectionné
+        const paymentMethod = document.getElementById('payment-method');
+        const selectedOperator = paymentMethod ? paymentMethod.value : '';
+        
+        if (selectedOperator && selectedOperator !== '') {
+            // Opérateur sélectionné : activer le bouton
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Confirmer la commande (Mobile Money)';
+        } else {
+            // Aucun opérateur : désactiver le bouton
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.6';
+            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.innerHTML = '<i class="fas fa-hourglass"></i> Choisissez un opérateur';
+        }
+    }
+}
+
+// ===== AFFICHER LE NUMÉRO DE PAIEMENT =====
+function showPaymentNumber(operator) {
+    // Cacher tous les numéros
+    const numbers = ['airtel-number', 'orange-number', 'vodacom-number', 'africell-number'];
+    numbers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    
+    // Afficher le numéro choisi
+    if (operator && operator !== '') {
+        const selectedNumber = document.getElementById(operator);
+        if (selectedNumber) {
+            selectedNumber.style.display = 'block';
+        }
+    }
+    
+    // Mettre à jour l'état du bouton
+    updateOrderButtonState();
+}
+
+// ===== GESTION DU MODE DE PAIEMENT =====
 function selectPayment(mode) {
     const payOnline = document.getElementById('pay-online');
     const payCash = document.getElementById('pay-cash');
@@ -110,104 +248,192 @@ function selectPayment(mode) {
         onlineDetails.style.display = 'none';
         paymentMode.value = 'cash';
     }
-}
-
-// Fonction pour afficher le numéro selon l'opérateur choisi
-function showPaymentNumber(operator) {
-    // Cacher tous les numéros d'abord
-    document.getElementById('airtel-number').style.display = 'none';
-    document.getElementById('orange-number').style.display = 'none';
-    document.getElementById('vodacom-number').style.display = 'none';
-    document.getElementById('africell-number').style.display = 'none';
     
-    // Afficher celui qui correspond
-    if (operator === 'airtel-money') {
-        document.getElementById('airtel-number').style.display = 'block';
-    } else if (operator === 'orange-money') {
-        document.getElementById('orange-number').style.display = 'block';
-    } else if (operator === 'vodacom-mpesa') {
-        document.getElementById('vodacom-number').style.display = 'block';
-    } else if (operator === 'africell-money') {
-        document.getElementById('africell-number').style.display = 'block';
-    }
+    // Mettre à jour l'état du bouton
+    updateOrderButtonState();
 }
 
-// Passer la commande
+// ===== VALIDATION DU TÉLÉPHONE EN TEMPS RÉEL =====
+function setupPhoneValidation() {
+    const phoneInput = document.getElementById('phone');
+    if (!phoneInput) return;
+    
+    phoneInput.addEventListener('input', function() {
+        const value = this.value;
+        let errorMsg = document.getElementById('phone-error');
+        
+        if (value.length > 0) {
+            const isValid = validatePhone(value);
+            
+            if (!isValid) {
+                this.style.borderColor = '#dc3545';
+                this.style.backgroundColor = '#fff0f0';
+                
+                if (!errorMsg) {
+                    errorMsg = document.createElement('small');
+                    errorMsg.id = 'phone-error';
+                    errorMsg.style.color = '#dc3545';
+                    errorMsg.style.display = 'block';
+                    errorMsg.style.marginTop = '0.3rem';
+                    this.parentNode.appendChild(errorMsg);
+                }
+                errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Formats acceptés: +243812345678, 0812345678 ou 812345678';
+            } else {
+                this.style.borderColor = '#28a745';
+                this.style.backgroundColor = '#f0fff0';
+                if (errorMsg) errorMsg.remove();
+            }
+        } else {
+            this.style.borderColor = '#e0e0e0';
+            this.style.backgroundColor = 'white';
+            if (errorMsg) errorMsg.remove();
+        }
+    });
+}
+
+// ===== PASSER LA COMMANDE =====
 function placeOrder(event) {
     event.preventDefault();
     
-    const cart = Cart.get();
+    const cart = getCart();
     
     if (cart.length === 0) {
-        showNotification('Votre panier est vide. Ajoutez des articles avant de commander.', 'error');
+        showNotification('Panier vide', 'Ajoutez des articles avant de commander', 'error');
         return;
     }
     
-    // Récupérer les données du formulaire
-    const formData = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        deliveryTime: document.getElementById('delivery-time').value,
-        paymentMode: document.getElementById('payment-mode').value
-    };
+    const name = document.getElementById('name')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const address = document.getElementById('address')?.value || '';
+    const deliveryTime = document.getElementById('delivery-time')?.value || 'dès que possible';
+    const paymentMode = document.getElementById('payment-mode')?.value || 'cash';
     
-    // Validation
-    if (!formData.name || !formData.phone || !formData.address) {
-        showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+    if (!name.trim()) {
+        showNotification('Erreur', 'Veuillez entrer votre nom complet', 'error');
         return;
     }
     
-    if (!validatePhone(formData.phone)) {
-        showNotification('Numéro de téléphone invalide', 'error');
+    if (!phone.trim()) {
+        showNotification('Erreur', 'Veuillez entrer votre numéro de téléphone', 'error');
         return;
     }
     
-    // Calculer le total
-    const total = Cart.getTotal();
+    if (!validatePhone(phone)) {
+        showNotification('Erreur', 'Numéro invalide. Formats acceptés: +243812345678, 0812345678 ou 812345678', 'error');
+        return;
+    }
     
-    // Créer la commande
+    if (!address.trim()) {
+        showNotification('Erreur', 'Veuillez entrer votre adresse de livraison', 'error');
+        return;
+    }
+    
+    let paymentDetails = null;
+    if (paymentMode === 'online') {
+        const paymentMethod = document.getElementById('payment-method')?.value;
+        if (!paymentMethod) {
+            showNotification('Erreur', 'Veuillez choisir un opérateur Mobile Money', 'error');
+            return;
+        }
+        
+        let paymentNumber = '';
+        switch(paymentMethod) {
+            case 'airtel-number':
+                paymentNumber = '+243 812 345 678';
+                break;
+            case 'orange-number':
+                paymentNumber = '+243 892 345 678';
+                break;
+            case 'vodacom-number':
+                paymentNumber = '+243 992 345 678';
+                break;
+            case 'africell-number':
+                paymentNumber = '+243 972 345 678';
+                break;
+        }
+        
+        paymentDetails = {
+            method: paymentMethod,
+            number: paymentNumber,
+            phone: document.getElementById('payment-phone')?.value || ''
+        };
+    }
+    
+    const total = getCartTotal();
+    const cleanPhone = cleanPhoneNumber(phone);
+    
     const order = {
-        id: Orders.generateId(),
-        customer: formData,
+        id: Date.now(),
+        customer: {
+            name: name.trim(),
+            phone: cleanPhone,
+            address: address.trim()
+        },
         items: cart,
         total: total,
-        paymentDetails: formData.paymentMode === 'online' ? {
-            method: document.getElementById('payment-method').value,
-            phone: document.getElementById('payment-phone').value
-        } : null,
-        status: 'en attente',
+        deliveryTime: deliveryTime,
+        paymentMode: paymentMode,
+        paymentDetails: paymentDetails,
+        status: paymentMode === 'online' ? 'payé' : 'en attente de paiement',
         date: new Date().toISOString()
     };
     
-    // Sauvegarder la commande
-    Orders.add(order);
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
     
-    // Message de confirmation
-    showConfirmation(order);
+    let message = `✅ COMMANDE CONFIRMÉE #${order.id}\n\n`;
+    message += `Merci ${order.customer.name} !\n\n`;
+    message += `📦 Total: ${formatPrice(order.total)}\n`;
+    message += `Mode: ${order.paymentMode === 'online' ? 'Mobile Money' : 'Cash à la livraison'}\n`;
     
-    // Vider le panier
-    Cart.clear();
+    if (order.paymentMode === 'online') {
+        message += `\n📱 Envoyez ${formatPrice(order.total)} à : ${order.paymentDetails.number}\n`;
+    } else {
+        message += `\n💰 Préparez ${formatPrice(order.total)} en cash.`;
+    }
     
-    // Rediriger
+    message += `\n\n🚚 Livraison à: ${order.customer.address}`;
+    message += `\n📞 Contact: ${order.customer.phone}`;
+    
+    alert(message);
+    
+    localStorage.removeItem('cart');
+    
     setTimeout(() => {
         window.location.href = 'index.html';
     }, 3000);
 }
 
-function showConfirmation(order) {
-    let message = `Merci ${order.customer.name} !\n\n`;
-    message += `Commande #${order.id}\n`;
-    message += `Total: ${formatPrice(order.total)}\n`;
-    message += `Paiement: ${order.customer.paymentMode === 'online' ? 'En ligne' : 'Cash à la livraison'}\n\n`;
-    message += `Livraison à: ${order.customer.address}\n`;
-    message += `Téléphone: ${order.customer.phone}\n\n`;
+// ===== INITIALISATION =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Charger le panier
+    loadCart();
     
-    if (order.customer.paymentMode === 'online') {
-        message += `Vous allez recevoir une demande de paiement sur votre téléphone.`;
-    } else {
-        message += `Préparez ${formatPrice(order.total)} en cash pour la livraison.`;
+    // Initialiser le mode de paiement (cash par défaut)
+    selectPayment('cash');
+    
+    // Configurer la validation du téléphone
+    setupPhoneValidation();
+    
+    // Écouteur pour le changement d'opérateur
+    const paymentMethod = document.getElementById('payment-method');
+    if (paymentMethod) {
+        paymentMethod.addEventListener('change', function() {
+            showPaymentNumber(this.value);
+        });
     }
     
-    alert(message);
-}
+    // Écouteur pour le formulaire
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.addEventListener('submit', placeOrder);
+    }
+});
+
+// Exposer les fonctions globales
+window.updateQuantity = updateQuantity;
+window.clearCart = clearCart;
+window.selectPayment = selectPayment;
+window.placeOrder = placeOrder;
+window.showPaymentNumber = showPaymentNumber;

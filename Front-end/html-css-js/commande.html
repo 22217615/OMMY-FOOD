@@ -102,39 +102,37 @@
                         
                         <!-- Détails paiement en ligne -->
                         <!-- Détails paiement en ligne -->
-<div class="online-payment-details" id="online-payment-details">
+<!-- Dans la section du formulaire de paiement -->
+<div class="online-payment-details" id="online-payment-details" style="display: none;">
     <div class="form-group">
-        <label for="payment-method">Choisissez votre moyen de paiement</label>
-        <select id="payment-method" onchange="showPaymentNumber(this.value)">
-            <option value="">Sélectionnez un opérateur</option>
-            <option value="airtel-money">Airtel Money</option>
-            <option value="orange-money">Orange Money</option>
-            <option value="vodacom-mpesa">Vodacom M-Pesa</option>
-            <option value="africell-money">Africell Money</option>
-             <option value="carte">Carte bancaire</option>
-        </select>
+        <label for="payment-method">Choisissez votre opérateur Mobile Money</label>
+       <select id="payment-method" class="form-control">
+    <option value="">-- Sélectionnez un opérateur --</option>
+    <option value="airtel-number">Airtel Money</option>
+    <option value="orange-number">Orange Money</option>
+    <option value="vodacom-number">Vodacom M-Pesa</option>
+    <option value="africell-number">Africell Money</option>
+</select>
     </div>
     
     <!-- ÉLÉMENTS P CACHÉS - À AJOUTER ICI -->
+    <!-- Éléments cachés pour les numéros de paiement -->
     <div id="airtel-number" class="payment-number" style="display: none;">
         <p><strong>Airtel Money :</strong> Envoyez l'argent au <strong>+243 812 345 678</strong></p>
     </div>
-    
     <div id="orange-number" class="payment-number" style="display: none;">
         <p><strong>Orange Money :</strong> Envoyez l'argent au <strong>+243 892 345 678</strong></p>
     </div>
-    
     <div id="vodacom-number" class="payment-number" style="display: none;">
         <p><strong>Vodacom M-Pesa :</strong> Envoyez l'argent au <strong>+243 992 345 678</strong></p>
     </div>
-    
     <div id="africell-number" class="payment-number" style="display: none;">
         <p><strong>Africell Money :</strong> Envoyez l'argent au <strong>+243 972 345 678</strong></p>
     </div>
     <!-- FIN DES ÉLÉMENTS CACHÉS -->
     
-    <div class="form-group">
-        <label for="payment-phone">Votre numéro de téléphone Mobile Money</label>
+     <div class="form-group">
+        <label for="payment-phone">Votre numéro Mobile Money</label>
         <input type="tel" id="payment-phone" placeholder="+243 XXX XXX XXX">
     </div>
 </div>
@@ -169,7 +167,7 @@
             <div class="footer-section">
                 <h3>Contact</h3>
                 <p><i class="fas fa-phone"></i> +243 123 456 789</p>
-               <p>Veuillez <a href="contact.html"style = "color:#f8c630">Visitez</a> pour plus </p>
+               <p>Veuillez <a href="contact.html"style = "color:#f8c630">Visitez</a></p>
             </div>
         </div>
         <div class="copyright">
