@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - OMMY-FOOD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+    <div class="header-top">
+        <i class="fas fa-map-marker-alt"></i> Kinshasa, RDC | <i class="fas fa-phone"></i> +243 123 456 789 | 24h/24
+        <div class="flag-rdc">
+            <span class="blue"></span>
+            <span class="yellow"></span>
+            <span class="red"></span>
+        </div>
+    </div>
+    
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>OMMY-FOOD</h1>
+                <span>Saveurs de la RDC</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="menu.html">Menu</a>
+                <a href="commande.html">Commander</a>
+                <a href="galery.html">Galerie</a>
+                <a href="contact.html" class="active" >Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="page-header">
+        <h2>Contactez-nous</h2>
+        <p>Nous sommes à votre écoute 24h/24 et 7j/7</p>
+    </section>
+    
+    <div class="container">
+        <!-- Section Contact -->
+        <div class="contact-section">
+            <!-- Informations de contact -->
+            <div class="contact-info">
+                <h3><i class="fas fa-info-circle"></i> Nos coordonnées</h3>
+                
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Adresse</h4>
+                        <p>123 Avenue de la Libération<br>Kinshasa, République Démocratique du Congo</p>
+                        <button class="btn-small" onclick="copyAddress()">
+                            <i class="fas fa-copy"></i> Copier
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4>Téléphone</h4>
+                        <p><strong>Standard:</strong> +243 123 456 789</p>
+                        <p><strong>Livraisons:</strong> +243 987 654 321</p>
+                        <p><strong>WhatsApp:</strong> +243 123 456 789</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p><strong>Réservations:</strong> contact@ommyfood.cd</p>
+                        <p><strong>Réclamations:</strong> support@ommyfood.cd</p>
+                        <p><strong>Partenariats:</strong> partenaires@ommyfood.cd</p>
+                    </div>
+                </div>
+                
+                <!-- Horaires -->
+                <div class="horaires">
+                    <h4><i class="fas fa-clock"></i> Horaires d'ouverture</h4>
+                    <div class="horaires-item">
+                        <span class="days">Lundi - Vendredi</span>
+                        <span class="hours">24h/24</span>
+                    </div>
+                    <div class="horaires-item">
+                        <span class="days">Samedi - Dimanche</span>
+                        <span class="hours">24h/24</span>
+                    </div>
+                    <div class="horaires-item">
+                        <span class="days">Jours fériés</span>
+                        <span class="hours">24h/24</span>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                        <i class="fas fa-truck"></i> Livraison 24h/24 - 7j/7
+                    </p>
+                </div>
+                
+                <!-- Réseaux sociaux -->
+                <div class="social-contact">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links-large">
+                        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulaire de contact -->
+            <div class="contact-form">
+                <h3><i class="fas fa-paper-plane"></i> Envoyez-nous un message</h3>
+                
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Nom complet *</label>
+                            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                            <small class="error-message" id="nameError" style="color: #dc3545; display: none;"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                            <small class="error-message" id="emailError" style="color: #dc3545; display: none;"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone"><i class="fas fa-phone"></i> Téléphone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+243 XXX XXX XXX">
+                            <small class="error-message" id="phoneError" style="color: #dc3545; display: none;"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject"><i class="fas fa-tag"></i> Sujet *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Choisissez un sujet</option>
+                                <option value="reservation">Réservation</option>
+                                <option value="commande">Question sur une commande</option>
+                                <option value="livraison">Livraison</option>
+                                <option value="reclamation">Réclamation</option>
+                                <option value="partenariat">Partenariat</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                            <small class="error-message" id="subjectError" style="color: #dc3545; display: none;"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment"></i> Message *</label>
+                        <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
+                        <small class="error-message" id="messageError" style="color: #dc3545; display: none;"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="consent" required>
+                            J'accepte que mes données soient traitées pour répondre à ma demande
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Envoyer le message
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Carte Google Maps -->
+        <div class="map-section">
+            <h3><i class="fas fa-map-marked-alt"></i> Nous trouver</h3>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126910.71279218323!2d15.26728565!3d-4.32758045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a32eac8d537bb%3A0x9c8e6b9b9b9b9b9b!2sKinshasa%2C%20R%C3%A9publique%20d%C3%A9mocratique%20du%20Congo!5e0!3m2!1sfr!2sfr!4v1620000000000!5m2!1sfr!2sfr" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+                
+                <div class="map-overlay">
+                    <p><i class="fas fa-map-pin"></i> 123 Avenue de la Libération</p>
+                    <button class="btn-small" onclick="openInMaps()">
+                        <i class="fas fa-directions"></i> Itinéraire
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h3><i class="fas fa-question-circle"></i> Questions fréquentes</h3>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Quels sont vos délais de livraison ?</h4>
+                    <p>Nous livrons généralement en 30-45 minutes dans Kinshasa. Pour les communes éloignées, comptez 60 minutes maximum.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Faites-vous des livraisons la nuit ?</h4>
+                    <p>Oui ! Nous sommes ouverts 24h/24 et livrons à toute heure du jour et de la nuit.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Quels modes de paiement acceptez-vous ?</h4>
+                    <p>Nous acceptons : Mobile Money (Airtel, Orange, Vodacom), espèces à la livraison, et carte bancaire.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Puis-je réserver pour un grand groupe ?</h4>
+                    <p>Absolument ! Contactez-nous pour les réservations de groupe avec au moins 24h d'avance.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Proposez-vous des plats végétariens ?</h4>
+                    <p>Oui, nous avons plusieurs options végétariennes dans notre menu, dont le Saka Saka et le Fumbwa.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4><i class="fas fa-chevron-down"></i> Comment suivre ma commande ?</h4>
+                    <p>Vous recevrez un SMS avec un lien de suivi dès que votre commande sera prise en charge par notre livreur.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>OMMY-FOOD</h3>
+                <p>Le meilleur de la cuisine congolaise livrée chez vous, 24h/24 et 7j/7.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Kinshasa, RDC</p>
+                <p><i class="fas fa-phone"></i> +243 123 456 789</p>
+                <p><i class="fas fa-envelope"></i> contact@ommyfood.cd</p>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <p><i class="fas fa-clock"></i> Ouvert 24h/24</p>
+                <p><i class="fas fa-clock"></i> 7 jours sur 7</p>
+                <p><i class="fas fa-truck"></i> Livraison immédiate</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 OMMY-FOOD - Tous droits réservés</p>
+            <p> République Démocratique du Congo au cœur de l'Afrique</p>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>

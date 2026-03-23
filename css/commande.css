@@ -1,0 +1,259 @@
+/* ===== STYLES SPÉCIFIQUES À LA COMMANDE ===== */
+.order-section {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+}
+
+/* Panier */
+.cart-container {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 20px;
+}
+
+.cart-container h3 {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--primary-yellow);
+    padding-bottom: 0.5rem;
+}
+
+.cart-items {
+    margin-bottom: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-info h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.cart-item-price {
+    color: var(--primary-blue);
+    font-weight: bold;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cart-item-actions button {
+    background: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.cart-item-actions button:hover {
+    background: var(--primary-yellow);
+}
+
+.cart-item-actions span {
+    min-width: 30px;
+    text-align: center;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #333;
+}
+
+.btn-clear {
+    width: 100%;
+    padding: 0.8rem;
+    background: #dc3545;
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.btn-clear:hover {
+    background: #c82333;
+}
+
+/* Formulaire */
+.order-form {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.order-form h3 {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--primary-yellow);
+    padding-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus, 
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+/* Options de paiement */
+.payment-options {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.payment-option {
+    flex: 1;
+    text-align: center;
+    padding: 1.5rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.payment-option.selected {
+    border-color: var(--primary-blue);
+    background-color: #e6f3ff;
+}
+
+.payment-option i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-blue);
+}
+
+.payment-option h4 {
+    margin-bottom: 0.3rem;
+}
+
+.payment-option p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.online-payment-details, 
+.cash-payment-details {
+    display: none;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+.payment-number {
+    background-color: #f0f8ff;
+    border-left: 4px solid #0077b6;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    font-size: 1.1rem;
+}
+
+.payment-number strong {
+    color: #0077b6;
+}
+
+.btn-order {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-order:hover {
+    background: #005f92;
+}
+
+.btn-order:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .order-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment-options {
+        flex-direction: column;
+    }
+}
+/* Style du bouton de commande */
+#submit-order {
+    transition: all 0.3s ease;
+}
+
+#submit-order:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #cccccc;
+}
+
+#submit-order:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+#submit-order:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}

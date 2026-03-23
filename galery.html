@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie - OMMY-FOOD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/galery.css">
+</head>
+<body>
+    <div class="header-top">
+        <i class="fas fa-map-marker-alt"></i> Kinshasa, RDC | <i class="fas fa-phone"></i> +243 123 456 789 | 24h/24
+        <div class="flag-rdc">
+            <span class="blue"></span>
+            <span class="yellow"></span>
+            <span class="red"></span>
+        </div>
+    </div>
+    
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>OMMY-FOOD</h1>
+                <span>Saveurs de la RDC</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="menu.html">Menu</a>
+                <a href="commande.html">Commander</a>
+                <a href="galery.html"class="active">Galerie</a>
+                <a href="contact.html" >Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="page-header">
+        <h2>Notre Galerie</h2>
+        <p>Découvrez nos plats, notre équipe et l'ambiance de notre restaurant</p>
+    </section>
+    
+    <div class="container">
+        <div class="gallery-filter">
+            <button class="filter-btn active" onclick="filterGallery('all')">Tous</button>
+            <button class="filter-btn" onclick="filterGallery('plats')">Plats</button>
+            <button class="filter-btn" onclick="filterGallery('grillades')">Grillades</button>
+            <button class="filter-btn" onclick="filterGallery('restaurant')">Restaurant</button>
+            <button class="filter-btn" onclick="filterGallery('evenements')">Événements</button>
+        </div>
+        
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Les éléments seront chargés ici par JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav prev" onclick="changeImage(-1)">&#10094;</button>
+        <button class="lightbox-nav next" onclick="changeImage(1)">&#10095;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>OMMY-FOOD</h3>
+                <p>Le meilleur de la cuisine congolaise.</p>
+                 <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</a></h3>
+            
+                <p><i class="fas fa-phone"></i> +243 123 456 789</p>
+                <p>Veuillez <a href="contact.html"style = "color:#f8c630">Visitez</a> pour plus </p> 
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 OMMY-FOOD - RDC</p>
+        </div>
+    </footer>
+    
+        <script src="js/main.js"></script>
+     <script src="js/galery.js"></script>    
+</body>
+</html>

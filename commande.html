@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander - OMMY-FOOD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/commande.css">
+</head>
+<body>
+    <div class="header-top">
+        <i class="fas fa-map-marker-alt"></i> Kinshasa, RDC | <i class="fas fa-phone"></i> +243 123 456 789 | 24h/24
+        <div class="flag-rdc">
+            <span class="blue"></span>
+            <span class="yellow"></span>
+            <span class="red"></span>
+        </div>
+    </div>
+    
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>OMMY-FOOD</h1>
+                <span>Saveurs de la RDC</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="menu.html">Menu</a>
+                <a href="commande.html" class="active">Commander</a>
+                <a href="galery.html">Galerie</a>
+                <a href="contact.html" >Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="page-header">
+        <h2>Passer votre commande</h2>
+        <p>Choisissez vos plats et votre mode de paiement</p>
+    </section>
+    
+    <div class="container">
+        <div class="order-section">
+            <!-- Panier -->
+            <div class="cart-container">
+                <h3><i class="fas fa-shopping-cart"></i> Votre commande</h3>
+                <div class="cart-items" id="cart-items">
+                    <!-- Les articles seront chargés ici par JavaScript -->
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total">0 FC</span>
+                </div>
+                <button class="btn-clear" onclick="clearCart()">
+                    <i class="fas fa-trash"></i> Vider le panier
+                </button>
+            </div>
+            
+            <!-- Formulaire de commande -->
+            <div class="order-form">
+                <h3><i class="fas fa-user"></i> Informations de livraison</h3>
+                <form id="orderForm" onsubmit="placeOrder(event)">
+                    <div class="form-group">
+                        <label for="name">Nom complet *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone *</label>
+                        <input type="tel" id="phone" placeholder="+243 XXX XXX XXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Adresse de livraison *</label>
+                        <textarea id="address" rows="3" placeholder="Quartier, Avenue, Numéro, Commune" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery-time">Heure de livraison souhaitée</label>
+                        <select id="delivery-time">
+                            <option value="des maintenant">Dès que possible</option>
+                            <option value="dans 30 min">Dans 30 minutes</option>
+                            <option value="dans 1 heure">Dans 1 heure</option>
+                            <option value="planifié">Planifier plus tard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mode de paiement *</label>
+                        <div class="payment-options">
+                            <div class="payment-option" id="pay-online" onclick="selectPayment('online')">
+                                <i class="fas fa-credit-card"></i>
+                                <h4>Paiement en ligne</h4>
+                                <p>Mobile Money, Carte bancaire</p>
+                            </div>
+                            <div class="payment-option selected" id="pay-cash" onclick="selectPayment('cash')">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <h4>Paiement en cash</h4>
+                                <p>À la livraison</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Détails paiement en ligne -->
+                        <!-- Détails paiement en ligne -->
+<!-- Dans la section du formulaire de paiement -->
+<div class="online-payment-details" id="online-payment-details" style="display: none;">
+    <div class="form-group">
+        <label for="payment-method">Choisissez votre opérateur Mobile Money</label>
+       <select id="payment-method" class="form-control">
+    <option value="">-- Sélectionnez un opérateur --</option>
+    <option value="airtel-number">Airtel Money</option>
+    <option value="orange-number">Orange Money</option>
+    <option value="vodacom-number">Vodacom M-Pesa</option>
+    <option value="africell-number">Africell Money</option>
+</select>
+    </div>
+    
+    <!-- ÉLÉMENTS P CACHÉS - À AJOUTER ICI -->
+    <!-- Éléments cachés pour les numéros de paiement -->
+    <div id="airtel-number" class="payment-number" style="display: none;">
+        <p><strong>Airtel Money :</strong> Envoyez l'argent au <strong>+243 812 345 678</strong></p>
+    </div>
+    <div id="orange-number" class="payment-number" style="display: none;">
+        <p><strong>Orange Money :</strong> Envoyez l'argent au <strong>+243 892 345 678</strong></p>
+    </div>
+    <div id="vodacom-number" class="payment-number" style="display: none;">
+        <p><strong>Vodacom M-Pesa :</strong> Envoyez l'argent au <strong>+243 992 345 678</strong></p>
+    </div>
+    <div id="africell-number" class="payment-number" style="display: none;">
+        <p><strong>Africell Money :</strong> Envoyez l'argent au <strong>+243 972 345 678</strong></p>
+    </div>
+    <!-- FIN DES ÉLÉMENTS CACHÉS -->
+    
+     <div class="form-group">
+        <label for="payment-phone">Votre numéro Mobile Money</label>
+        <input type="tel" id="payment-phone" placeholder="+243 XXX XXX XXX">
+    </div>
+</div>
+                        
+                        <!-- Détails paiement cash -->
+                        <div class="cash-payment-details" id="cash-payment-details">
+                            <p><i class="fas fa-check-circle" style="color: #14831f;"></i> Vous paierez en espèces à la livraison. Préparez la monnaie si possible.</p>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="payment-mode" value="cash">
+                    
+                    <button type="submit" class="btn-order" id="submit-order">
+                        <i class="fas fa-check"></i> Confirmer la commande
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>OMMY-FOOD</h3>
+                <p>Le meilleur de la cuisine congolaise.</p>
+                 <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +243 123 456 789</p>
+               <p>Veuillez <a href="contact.html"style = "color:#f8c630">Visitez</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 OMMY-FOOD - RDC</p>
+        </div>
+    </footer>
+     <script src="js/main.js"></script>
+     <script src="js/commande.js"></script>
+</body>
+</html>
