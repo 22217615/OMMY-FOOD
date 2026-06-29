@@ -61,12 +61,15 @@ Through this project I improved my understanding of:
 
 ## Future Improvements
 
-* Password hashing
-* User roles and permissions
 * REST API
 * Better UI animations
 
+## LIVE DEMO
 
+I deployed this small project an free hosting 
+
+https://ommy-food.great-site.net // copy and paste the link in any browser
+https://ommy-food.great-site.net/admin/login.php // admin account I only have user name and the password i can provide it if needed 
 ## Author
 
 Elie Kayumba
